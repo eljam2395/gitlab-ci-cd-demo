@@ -19,42 +19,51 @@ maven-test-jdk-8:
   artifacts:
     paths:
       - target/*.war
-      
-maven-test-jdk-9:
-  image: maven:3-jdk-9
-  stage: build
-  script: "./mvnw package -B"
-  artifacts:
-    paths:
-      - target/*.war
 
-docker-build:
+docker-build-dev:
   stage: package
   script:
-  - docker build -t magoo-dev/spring-pet-clinic .
+  - docker build -t magoo-dev/spring-pet-clinic-dev .
+only:
+  - develop
 
 docker-replace-dev:
   allow_failure: true
   stage: replace
   script:
   - docker stop pclinic-latest-dev
+  only:
+  - develop
   
 docker-deploy-dev:
   stage: deploy
   script:
-  - docker run -d --name pclinic-latest-dev --rm -p 8011:8080 magoo-dev/spring-pet-clinic
+  - docker run -d --name pclinic-latest-dev --rm -p 8011:8080 magoo-dev/spring-pet-clinic-dev
   environment:
     name: DEV
+  only:
+  - develop
 
+docker-build-uat:
+  stage: package
+  script:
+  - docker build -t magoo-dev/spring-pet-clinic-uat .
+only:
+  - master
+  
 docker-replace-uat:
   allow_failure: true
   stage: replace
   script:
   - docker stop pclinic-latest-uat
-  
+  only:
+  - master
+
 docker-deploy-uat:
   stage: deploy
   script:
-  - docker run -d --name pclinic-latest-uat --rm -p 8012:8080 magoo-dev/spring-pet-clinic
+  - docker run -d --name pclinic-latest-uat --rm -p 8012:8080 magoo-dev/spring-pet-clinic-uat
   environment:
     name: UAT
+  only:
+  - master
