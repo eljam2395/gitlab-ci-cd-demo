@@ -12,14 +12,6 @@ stages:
   - replace
   - deploy
 
-maven-test-jdk-7:
-  image: maven:3-jdk-7
-  stage: build
-  script: "./mvnw package -B"
-  artifacts:
-    paths:
-      - target/*.war
-
 maven-test-jdk-8:
   image: maven:3-jdk-8
   stage: build
@@ -36,22 +28,20 @@ maven-test-jdk-9:
     paths:
       - target/*.war
 
-docker-build:
+docker-build-dev:
   stage: package
   script:
-  - docker build -t magoo-docker/spring-pet-clinic .
-  
-docker-replace:
+  - docker build -t magoo-dev/spring-pet-clinic-dev .
+
+docker-replace-dev:
   allow_failure: true
   stage: replace
   script:
-  - docker stop pclinic-latest
+  - docker stop pclinic-latest-dev
   
-docker-deploy:
+docker-deploy-dev:
   stage: deploy
   script:
-  - docker run -d --name pclinic-latest --rm -p 8082:8080 magoo-docker/spring-pet-clinic
+  - docker run -d --name pclinic-latest-dev --rm -p 8011:8080 magoo-dev/spring-pet-clinic-dev
   environment:
     name: DEV
-  only:
-  - master
