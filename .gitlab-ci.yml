@@ -52,7 +52,7 @@ docker-replace-uat:
   script:
   - docker stop pclinic-latest-uat
   
-docker-deploy-dev:
+docker-deploy-uat:
   stage: deploy
   script:
   - docker run -d --name pclinic-latest-uat --rm -p 8012:8080 magoo-dev/spring-pet-clinic
