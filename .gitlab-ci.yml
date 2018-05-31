@@ -24,7 +24,7 @@ docker-build-dev:
   stage: package
   script:
   - docker build -t magoo-dev/spring-pet-clinic-dev .
-only:
+  only:
   - develop
 
 docker-replace-dev:
@@ -48,7 +48,7 @@ docker-build-uat:
   stage: package
   script:
   - docker build -t magoo-dev/spring-pet-clinic-uat .
-only:
+  only:
   - master
   
 docker-replace-uat:
