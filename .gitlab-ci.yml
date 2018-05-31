@@ -51,3 +51,8 @@ docker-deploy:
   stage: deploy
   script:
   - docker run -d --name pclinic-latest --rm -p 8082:8080 magoo-docker/spring-pet-clinic
+  environment:
+    name: DEV
+    url: https://staging.example.com
+  except:
+  - master
