@@ -41,6 +41,7 @@ docker-deploy-dev:
   - docker run -d --name pclinic-latest-dev --rm -p 8011:8080 magoo-dev/spring-pet-clinic-dev
   environment:
     name: DEV
+    url: http://localhost:8011/petclinic/
   only:
   - develop
 
@@ -65,5 +66,6 @@ docker-deploy-uat:
   - docker run -d --name pclinic-latest-uat --rm -p 8012:8080 magoo-dev/spring-pet-clinic-uat
   environment:
     name: UAT
+    url: http://localhost:8012/petclinic/
   only:
   - master
